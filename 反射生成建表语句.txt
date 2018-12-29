@@ -1,0 +1,18 @@
+StringBuilder createTable = new StringBuilder("create table tableName( \n");
+        Field[] fields = 需要生成建表语句的类.class.getDeclaredFields();
+        for (Field field : fields) {
+            Annotation[] allFAnnos = field.getAnnotations();
+            Class type = field.getType();
+            for (Annotation a : allFAnnos) {
+                if (a.annotationType().getName().equals("javax.persistence.Column")) {
+                    注解类 b = (注解类)a;
+                    if (type.getName().equals("java.lang.Integer")) {
+                        createTable.append("  ").append(b.name()).append(" number, \n");
+                    } else if (type.getName().equals("java.lang.String")) {
+                        createTable.append("  ").append(b.name()).append(" varchar2(300), \n");
+                    }
+                }
+            }
+        }
+        createTable.append(")");
+        System.out.println(createTable);
